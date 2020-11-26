@@ -21,7 +21,7 @@ data = _mcsv.values[:,:]
 y = data[:,5]
 X = data[:,:5]
 
-X_train,X_test,y_train,y_test = train_test_split(X,y)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.9,random_state=None)
 
 
 from sklearn.ensemble import RandomForestClassifier #随机森林分类模型

@@ -27,7 +27,7 @@ data = _mcsv.values[:,:]
 y = data[:,5]
 X = data[:,:5]
 
-X_train,X_test,y_train,y_test = train_test_split(X,y)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.1,random_state=9)
 
 # print(X_train) 
 # print('X_train size： {}'.format(X_train.size))
