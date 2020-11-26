@@ -16,7 +16,7 @@ from sklearn.svm import LinearSVC
 
 # names=['OPEN-CLOSE', '0PEN-EXCLOSE', 'HIGH-LOW', 'CLOSE-LOW','CLOSE-HIGH','Y']
 
-_mcsv = pd.read_csv("store_data_final.csv")
+_mcsv = pd.read_csv("20201126_v2.csv")
 data = _mcsv.values[:,:]
 y = data[:,5]
 X = data[:,:5]
@@ -26,29 +26,20 @@ X_train,X_test,y_train,y_test = train_test_split(X,y)
 
 from sklearn.ensemble import RandomForestClassifier #随机森林分类模型
 
-
-clf = RandomForestClassifier(max_depth=1, n_estimators=20)
-clf.fit(X_train,y_train)
-predictions = clf.predict(X_test)
-print("SVM kernel:rbf")
-print(classification_report(y_test,predictions))
-print("AC",accuracy_score(y_test,predictions))
+# print(X_train)
+# print("==============================================")
+# print(X_test)
+# print("==============================================")
+# print(y_train)
+# print("==============================================")
+# print(y_test)
+# print("==============================================")
 
 ###
-clf = RandomForestClassifier(max_depth=1, n_estimators=20)
+clf = RandomForestClassifier(max_depth=5, n_estimators=25)
 clf.fit(X_train,y_train)
 predictions = clf.predict(X_test)
-print("SVM kernel:linear")
-print(classification_report(y_test,predictions))
-print("AC",accuracy_score(y_test,predictions))
-
-### Pipeline
-clf = Pipeline([
-    ('scaler', StandardScaler()),
-    ('svm_clf',RandomForestClassifier(max_depth=1, n_estimators=20)),
-])
-clf.fit(X_train,y_train)
-print("Pipeline SVM kernel:linear")
+print("RandomForest kernel:linear")
 print(classification_report(y_test,predictions))
 print("AC",accuracy_score(y_test,predictions))
 
