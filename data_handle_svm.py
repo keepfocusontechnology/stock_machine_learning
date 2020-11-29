@@ -48,7 +48,7 @@ X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=.3)
 
 
 #rbf核函数
-clf = SVC(kernel='rbf', probability=True,C=10) 
+clf = SVC(kernel='rbf', C=5) 
 #打印参数
 # {'C': 1.0, 'break_ties': False, 'cache_size': 200, 'class_weight': None,
 #  'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 

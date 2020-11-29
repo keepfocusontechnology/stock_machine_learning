@@ -41,7 +41,7 @@ data = _mcsv.values[:,:]
 y = data[:,5]
 X = data[:,:5]
 
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.1,random_state=None)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3,random_state=None)
 
 # Similar to SVC with parameter kernel=’linear’, but implemented
 # in terms of liblinear rather than libsvm, so it has more flexibility
@@ -57,7 +57,7 @@ print("LinearSVC")
 print(classification_report(y_test,predictions))
 print("AC",accuracy_score(y_test,predictions))
 
-draw_ROC_curve(y_test, predictions)
+# draw_ROC_curve(y_test, predictions)
 
 ### https://scikit-learn.org/stable/modules/cross_validation.html
 scores = cross_val_score(clf, X_train, y_train, cv=5)
@@ -71,7 +71,7 @@ tuned_parameters = [
     {'kernel': ['linear'], 'C': [1, 2, 3]}
 ]
 
-scores = ['precision', 'recall']
+scores = ['precision', 'recall','f1-score']
 
 for score in scores:
     print("# Tuning hyper-parameters for %s" % score)
