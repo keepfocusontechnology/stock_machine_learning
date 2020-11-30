@@ -130,7 +130,7 @@ def normalPredict(X_train,X_test,y_train,y_test,c_value,g_value):
     scores = cross_val_score(clf,X,y,cv=5,scoring='accuracy')
     #5折交叉验证平均值
     print(scores.mean())
-    return clf
+
 
 
 def getModel(X_train,X_test,y_train,y_test,c_value,g_value):
@@ -161,9 +161,9 @@ def learnCurve():
 # 验证Gamma取值范围
 # showGammaAccuracy()
 # 输出准确度,5折交叉验证
-# normalPredict(X_train,X_test,y_train,y_test,10,13)
+normalPredict(X_train,X_test,y_train,y_test,10,13)
 # 输出模型学习程度
-learnCurve()
+# learnCurve()
 
 
 
