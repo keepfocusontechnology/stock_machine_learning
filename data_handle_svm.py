@@ -12,8 +12,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.model_selection import learning_curve
+from sklearn.model_selection import validation_curve
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import mean_squared_error
 
 # names=['OPEN-CLOSE', 'OPEN-EXCLOSE', 'HIGH-LOW', 'CLOSE-LOW','PRE-V','Y']
 
@@ -57,7 +59,7 @@ def findRandomState():
 
 
 def showCAccuracy():
-    c_range = range(1,5)
+    c_range = range(1,500)
     c_scores=[]
     for c in c_range:
         clf = SVC(kernel='rbf', C=c)
@@ -135,14 +137,28 @@ def normalPredict(X_train,X_test,y_train,y_test,c_value,g_value):
 
 def getModel(X_train,X_test,y_train,y_test,c_value,g_value):
     #rbf核函数
-    clf = SVC(kernel='rbf', C=c_value,gamma = g_value) 
+    clf = SVC(kernel='rbf', C=c_value,gamma=g_value) 
     clf.fit(X_train,y_train)
     return clf
+
+def defaultModel():
+    clf = SVC(kernel='rbf') 
+    clf.fit(X_train,y_train)
+    # print(clf.score(X_test,y_test))
+    # scores_test = cross_val_score(clf,X_test,y_test,cv=5,scoring='accuracy') 
+    scores = cross_val_score(clf,X,y,cv=5,scoring='accuracy')    
+    print(scores)
+    # print('test',scores_test)
+    print(scores.mean())
+    # print('test mean',scores_test.mean())
+
+
+
 
 
 def learnCurve():
     train_sizes,train_loss,test_loss=learning_curve(
-        getModel(X_train,X_test,y_train,y_test,10,12.5),X,y,cv=5,scoring='neg_mean_squared_error',
+        SVC(),X,y,cv=5,scoring='neg_mean_squared_error',
         train_sizes=[0.1,0.25,0.5,0.75,1])
     train_loss_mean = -np.mean(train_loss,axis=1)    
     test_loss_mean = -np.mean(test_loss,axis=1)
@@ -154,16 +170,79 @@ def learnCurve():
     plt.legend(loc="best")
     plt.show()
 
+# validation_curve 要看的是 SVC() 的超参数 gamma，
+# gamma 的范围是取 0.1到 10, 取10个点，
+# 评分用的是 neg_mean_squared_error
+def validationCurveGamma():
+    param_range = np.logspace(-1, 1, 5)
+    train_loss,test_loss=validation_curve(
+        SVC(),X,y,param_name='gamma',param_range=param_range,cv=10,scoring='neg_mean_squared_error')
+    train_loss_mean = -np.mean(train_loss,axis=1)    
+    test_loss_mean = -np.mean(test_loss,axis=1)
+    plt.plot(param_range,train_loss_mean,'o-',color="r",label="Training")
+    plt.plot(param_range,test_loss_mean,'o-',color="y",label="Cross-validation")
+    plt.xlabel("gamma")
+    plt.ylabel("Loss")
+    plt.legend(loc="best")
+    plt.show()
 
 
-# 验证C的取值范围
+# validation_curve 要看的是 SVC() 的超参数 C
+# c 的范围是取 1到 30, 取30个点，
+# 评分用的是 neg_mean_squared_error
+def validationCurveC():
+    param_range = range(1,30)
+    train_loss,test_loss=validation_curve(
+        SVC(),X,y,param_name='C',param_range=param_range,cv=10,scoring='accuracy')
+    train_loss_mean = np.mean(train_loss,axis=1)    
+    test_loss_mean = np.mean(test_loss,axis=1)
+    plt.plot(param_range,train_loss_mean,'o-',color="r",label="Training")
+    plt.plot(param_range,test_loss_mean,'o-',color="y",label="Cross-validation")
+    plt.xlabel("C")
+    plt.ylabel("Score")
+    plt.legend(loc="best")
+    plt.show()
+
+def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
+    """绘制学习曲线：只需要传入算法(或实例对象)、X_train、X_test、y_train、y_test"""
+    """当使用该函数时传入算法，该算法的变量要进行实例化，如：PolynomialRegression(degree=2)，变量 degree 要进行实例化"""
+    train_score = []
+    test_score = []
+    for i in range(1, len(X_train)+1):
+        algo.fit(X_train[:i], y_train[:i])
+        
+        y_train_predict = algo.predict(X_train[:i])
+        train_score.append(mean_squared_error(y_train[:i], y_train_predict))
+    
+        y_test_predict = algo.predict(X_test)
+        test_score.append(mean_squared_error(y_test, y_test_predict))
+    
+    plt.plot([i for i in range(1, len(X_train)+1)],
+            np.sqrt(train_score), label="train")
+    plt.plot([i for i in range(1, len(X_train)+1)],
+            np.sqrt(test_score), label="test")
+    
+    plt.legend()
+    plt.axis([0, len(X_train)+1, 0, 4])
+    plt.show()
+
+
+
+
+
+# 验证C的取值范围  c =8
 # showCAccuracy() 
-# 验证Gamma取值范围
+# 验证Gamma取值范围 gmama = 2
 # showGammaAccuracy()
 # 输出准确度,5折交叉验证
-normalPredict(X_train,X_test,y_train,y_test,10,13)
+normalPredict(X_train,X_test,y_train,y_test,8,10)
 # 输出模型学习程度
 # learnCurve()
+# 验证gamma函数 => gamma = 0.1
+# validationCurveGamma()
+#  验证C的值 => C=8
+# validationCurveC()
+# plot_learning_curve(SVC(C=8,gamma=2.12),X_train, X_test, y_train, y_test)
 
-
+# defaultModel()
 
