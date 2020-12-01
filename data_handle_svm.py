@@ -174,7 +174,7 @@ def learnCurve():
 # gamma 的范围是取 0.1到 10, 取10个点，
 # 评分用的是 neg_mean_squared_error
 def validationCurveGamma():
-    param_range = np.logspace(-1, 1, 5)
+    param_range = np.logspace(0, 2, 5)
     train_loss,test_loss=validation_curve(
         SVC(),X,y,param_name='gamma',param_range=param_range,cv=10,scoring='neg_mean_squared_error')
     train_loss_mean = -np.mean(train_loss,axis=1)    
@@ -235,7 +235,7 @@ def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
 # 验证Gamma取值范围 gmama = 2
 # showGammaAccuracy()
 # 输出准确度,5折交叉验证
-normalPredict(X_train,X_test,y_train,y_test,8,10)
+normalPredict(X_train,X_test,y_train,y_test,20,31)
 # 输出模型学习程度
 # learnCurve()
 # 验证gamma函数 => gamma = 0.1
