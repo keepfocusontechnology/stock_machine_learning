@@ -130,6 +130,7 @@ def normalPredict(X_train,X_test,y_train,y_test,c_value,g_value):
     # print(clf.score(X_test,y_test)) 
     print("AC",accuracy_score(y_test,predictions))
     scores = cross_val_score(clf,X,y,cv=5,scoring='accuracy')
+    print(scores)
     #5折交叉验证平均值
     print(scores.mean())
 
@@ -146,6 +147,7 @@ def defaultModel():
     clf.fit(X_train,y_train)
     # print(clf.score(X_test,y_test))
     # scores_test = cross_val_score(clf,X_test,y_test,cv=5,scoring='accuracy') 
+    print(classification_report(clf.predict(X_test),y_test))
     scores = cross_val_score(clf,X,y,cv=5,scoring='accuracy')    
     print(scores)
     # print('test',scores_test)
@@ -235,14 +237,13 @@ def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
 # 验证Gamma取值范围 gmama = 2
 # showGammaAccuracy()
 # 输出准确度,5折交叉验证
-normalPredict(X_train,X_test,y_train,y_test,20,31)
+# normalPredict(X_train,X_test,y_train,y_test,20,31)
 # 输出模型学习程度
 # learnCurve()
 # 验证gamma函数 => gamma = 0.1
 # validationCurveGamma()
 #  验证C的值 => C=8
 # validationCurveC()
-# plot_learning_curve(SVC(C=8,gamma=2.12),X_train, X_test, y_train, y_test)
-
+plot_learning_curve(SVC(C=8,gamma=2.12),X_train, X_test, y_train, y_test)
 # defaultModel()
 
