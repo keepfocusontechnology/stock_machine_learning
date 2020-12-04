@@ -40,18 +40,18 @@ from sklearn.ensemble import RandomForestClassifier #随机森林分类模型
 # print("==============================================")
 
 ###
-clf = RandomForestClassifier(max_depth=5, n_estimators=25)
+clf = RandomForestClassifier()
 clf.fit(X_train,y_train)
 predictions = clf.predict(X_test)
 print(classification_report(y_test,predictions))
 print("AC",accuracy_score(y_test,predictions))
-
-### https://scikit-learn.org/stable/modules/cross_validation.html
-scores = cross_val_score(clf, X_train, y_train, cv=5)
+scores = cross_val_score(clf,X,y,cv=5,scoring='accuracy')
+print("五折交叉验证",scores)
+print("平均分",scores.mean())
 
 
 def getRandomModel():
-    clf = RandomForestClassifier(max_depth=5, n_estimators=25)
+    clf = RandomForestClassifier()
     return clf
 
 def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
