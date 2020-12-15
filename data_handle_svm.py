@@ -25,7 +25,7 @@ from sklearn.metrics import mean_squared_error
 # CLOSE-LOW = 当日收盘比当日最高低的幅度
 # PRE-V成交量涨跌幅
 
-_mcsv = pd.read_csv("20201126_v2.csv")
+_mcsv = pd.read_csv("20201205.csv")
 data = _mcsv.values[:,:]
 
 
@@ -237,13 +237,13 @@ def plot_learning_curve(algo, X_train, X_test, y_train, y_test):
 # 验证Gamma取值范围 gmama = 2
 # showGammaAccuracy()
 # 输出准确度,5折交叉验证
-# normalPredict(X_train,X_test,y_train,y_test,20,31)
+# normalPredict(X_train,X_test,y_train,y_test,1.04,0.1)
 # 输出模型学习程度
-# learnCurve()
+learnCurve()
 # 验证gamma函数 => gamma = 0.1
 # validationCurveGamma()
 #  验证C的值 => C=8
 # validationCurveC()
-plot_learning_curve(SVC(C=8,gamma=2.12),X_train, X_test, y_train, y_test)
+# plot_learning_curve(SVC(C=8,gamma=2.12),X_train, X_test, y_train, y_test)
 # defaultModel()
 

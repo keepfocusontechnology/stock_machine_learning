@@ -20,7 +20,7 @@ from sklearn.model_selection import learning_curve
 
 # names=['OPEN-CLOSE', '0PEN-EXCLOSE', 'HIGH-LOW', 'CLOSE-LOW','CLOSE-HIGH','Y']
 
-_mcsv = pd.read_csv("20201126_v2.csv")
+_mcsv = pd.read_csv("20201205.csv")
 data = _mcsv.values[:,:]
 y = data[:,5]
 X = data[:,:5]
@@ -94,5 +94,5 @@ def learnCurve(algo):
 
 
 # plot_learning_curve(getRandomModel(),X_train, X_test, y_train, y_test)
-learnCurve(getRandomModel())
+# learnCurve(getRandomModel())
 # print(scores)
